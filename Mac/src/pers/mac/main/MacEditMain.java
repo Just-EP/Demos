@@ -9,6 +9,5 @@ package pers.mac.main;
  */
 public class MacEditMain {
     public static void main(String[] args) {
-
     }
 }
