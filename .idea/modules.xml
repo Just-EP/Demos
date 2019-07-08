@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Jsoup/Jsoup.iml" filepath="$PROJECT_DIR$/Jsoup/Jsoup.iml" />
       <module fileurl="file://$PROJECT_DIR$/Mac/Mac.iml" filepath="$PROJECT_DIR$/Mac/Mac.iml" />
+      <module fileurl="file://$PROJECT_DIR$/crawlerdemo/crawlerdemo.iml" filepath="$PROJECT_DIR$/crawlerdemo/crawlerdemo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/httpclient/httpclient.iml" filepath="$PROJECT_DIR$/httpclient/httpclient.iml" />
     </modules>
   </component>
 </project>

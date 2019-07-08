@@ -9,5 +9,9 @@ package pers.mac.main;
  */
 public class MacEditMain {
     public static void main(String[] args) {
+        String s = GenerateMac.randomMacUsable();
+        System.out.println(s);
+        String randomPCName = GeneratePCName.getRandomPCName(1);
+        System.out.println(randomPCName);
     }
 }

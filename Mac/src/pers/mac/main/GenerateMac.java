@@ -6,7 +6,7 @@ import java.util.Random;
  * @author JustEP
  * @version 1.0
  * @classname GenerateMac
- * @description TODO
+ * @description 生成可用Mac地址
  * @createtime 2019/05/18 21:56:00
  */
 public class GenerateMac {

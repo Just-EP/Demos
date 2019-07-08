@@ -7,7 +7,7 @@ import java.util.UUID;
  * @author JustEP
  * @version 1.0
  * @classname GeneratePCName
- * @description TODO
+ * @description 生成不同的计算机名
  * @createtime 2019/05/18 21:56:00
  */
 public class GeneratePCName {
