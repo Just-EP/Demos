@@ -1,0 +1,29 @@
+
+spring:
+  freemarker:
+    template-loader-path: classpath:/templates
+    charset: UTF-8
+    cache: false
+    check-template-location: true
+    content-type: text/html
+    expose-request-attributes: true
+    expose-session-attributes: true
+    request-context-attribute: request
+    suffix: .ftl
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://127.0.0.1:3306/crawlerbilibili?serverTimezone=GMT&characterEncoding=utf8
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    druid:
+      initial-size: 5
+      max-active: 20
+      min-idle: 5
+      max-wait: 10
+      web-stat-filter:
+        enabled: true
+        url-pattern: /*
+      filters: stat
+server:
+  port: 8080

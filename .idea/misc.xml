@@ -5,6 +5,7 @@
       <list>
         <option value="$PROJECT_DIR$/crawlerdemo/pom.xml" />
         <option value="$PROJECT_DIR$/httpclient/pom.xml" />
+        <option value="$PROJECT_DIR$/crawlerbilibili/pom.xml" />
       </list>
     </option>
   </component>

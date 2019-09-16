@@ -6,6 +6,8 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.htmlcleaner.HtmlCleaner;
+import org.htmlcleaner.TagNode;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.junit.jupiter.api.Test;
@@ -19,7 +21,7 @@ import java.io.IOException;
  * @description 测试httpClient，试着使用httpclient和jsoup获取B站排行榜信息
  * @createtime 2019/07/08 22:14:00
  */
-public class HttpClientDemo {
+public class HttpClientDemoTest {
     private static CloseableHttpClient httpClient = HttpClients.createDefault();
     @Test
     public void getBiliBiliRanking() {
@@ -34,10 +36,9 @@ public class HttpClientDemo {
             String html = new String(EntityUtils.toString(entity,"UTF-8").getBytes(), "UTF-8");
             Document document = Jsoup.parse(html);
             System.out.println(document);
-//            Elements elements = document.getElementsByClass("rank-item");
-//            for (Element element:elements){
-//                System.out.println(element);
-//            }
+            HtmlCleaner htmlCleaner = new HtmlCleaner();
+            TagNode clean = htmlCleaner.clean(document.toString());
+//            clean.evaluateXPath()
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
