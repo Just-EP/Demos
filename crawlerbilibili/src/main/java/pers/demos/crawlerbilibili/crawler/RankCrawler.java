@@ -2,7 +2,6 @@ package pers.demos.crawlerbilibili.crawler;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import pers.demos.crawlerbilibili.bean.BiliBiliRankInfoPojo;
 import pers.demos.crawlerbilibili.crawler.source.HttpClientDownloader;
 import us.codecraft.webmagic.Page;
@@ -21,9 +20,9 @@ import java.util.List;
  * @description 测试爬虫
  * @createtime 2019/09/17 22:03:00
  */
-public class DemoCrawler implements PageProcessor {
+public class RankCrawler implements PageProcessor {
     private Site site = Site.me().setRetryTimes(3).setSleepTime(100);
-    private Logger logger = LoggerFactory.getLogger(DemoCrawler.class);
+    private Logger logger = LoggerFactory.getLogger(RankCrawler.class);
     @Override
     public void process(Page page) {
         List<String> lis = page.getHtml().xpath("//li[@class='rank-item']").all();
@@ -61,6 +60,6 @@ public class DemoCrawler implements PageProcessor {
     public static void main(String[] args) {
         //b站排行榜url https://www.bilibili.com/ranking/
         //all全站榜，1动画区，1近期投稿，3三日排行
-        Spider.create(new DemoCrawler()).setDownloader(new HttpClientDownloader()).addUrl("https://www.bilibili.com/ranking/all/1/1/3/").thread(5).run();
+        Spider.create(new RankCrawler()).setDownloader(new HttpClientDownloader()).addUrl("https://www.bilibili.com/ranking/all/1/1/3/").thread(5).run();
     }
 }

@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="crawlerbilibili" />
+        <module name="iputil" />
         <module name="httpclient" />
         <module name="crawlerdemo" />
       </profile>
@@ -16,6 +17,7 @@
       <module name="crawlerbilibili" target="1.8" />
       <module name="crawlerdemo" target="1.8" />
       <module name="httpclient" target="1.8" />
+      <module name="iputil" target="12" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
