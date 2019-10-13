@@ -7,6 +7,7 @@
       <module fileurl="file://$PROJECT_DIR$/crawlerdemo/crawlerdemo.iml" filepath="$PROJECT_DIR$/crawlerdemo/crawlerdemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/httpclient/httpclient.iml" filepath="$PROJECT_DIR$/httpclient/httpclient.iml" />
       <module fileurl="file://$PROJECT_DIR$/iputil/iputil.iml" filepath="$PROJECT_DIR$/iputil/iputil.iml" />
+      <module fileurl="file://$PROJECT_DIR$/telegrambot/telegrambot.iml" filepath="$PROJECT_DIR$/telegrambot/telegrambot.iml" />
     </modules>
   </component>
 </project>
