@@ -1,6 +1,7 @@
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import pers.demos.bot.MyBot;
 
 /**
  * @author JustEP
@@ -11,6 +12,10 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
  */
 public class Main {
     public static void main(String[] args) {
+        String proxyHost = "127.0.0.1";
+        String proxyPort = "10808";
+        System.setProperty("socksProxyHost", proxyHost);
+        System.setProperty("socksProxyPort", proxyPort);
         ApiContextInitializer.init();
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
         try {
