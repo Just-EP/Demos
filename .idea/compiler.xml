@@ -8,10 +8,10 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="telegrambot" />
-        <module name="crawlerdemo" />
         <module name="iputil" />
         <module name="httpclient" />
         <module name="crawlerbilibili" />
+        <module name="crawlerdemo" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -19,7 +19,7 @@
       <module name="crawlerdemo" target="1.8" />
       <module name="httpclient" target="1.8" />
       <module name="iputil" target="12" />
-      <module name="telegrambot" target="12" />
+      <module name="telegrambot" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
