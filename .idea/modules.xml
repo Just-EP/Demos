@@ -5,8 +5,11 @@
       <module fileurl="file://$PROJECT_DIR$/Mac/Mac.iml" filepath="$PROJECT_DIR$/Mac/Mac.iml" />
       <module fileurl="file://$PROJECT_DIR$/crawlerbilibili/crawlerbilibili.iml" filepath="$PROJECT_DIR$/crawlerbilibili/crawlerbilibili.iml" />
       <module fileurl="file://$PROJECT_DIR$/crawlerdemo/crawlerdemo.iml" filepath="$PROJECT_DIR$/crawlerdemo/crawlerdemo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ffmpeg4java/ffmpeg4java.iml" filepath="$PROJECT_DIR$/ffmpeg4java/ffmpeg4java.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ffmpeg4springboot/ffmpeg4springboot.iml" filepath="$PROJECT_DIR$/ffmpeg4springboot/ffmpeg4springboot.iml" />
       <module fileurl="file://$PROJECT_DIR$/httpclient/httpclient.iml" filepath="$PROJECT_DIR$/httpclient/httpclient.iml" />
       <module fileurl="file://$PROJECT_DIR$/iputil/iputil.iml" filepath="$PROJECT_DIR$/iputil/iputil.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nettydemo/nettydemo.iml" filepath="$PROJECT_DIR$/nettydemo/nettydemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/telegrambot/telegrambot.iml" filepath="$PROJECT_DIR$/telegrambot/telegrambot.iml" />
     </modules>
   </component>

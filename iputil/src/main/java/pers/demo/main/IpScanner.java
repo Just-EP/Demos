@@ -13,15 +13,18 @@ import java.net.InetAddress;
 public class IpScanner {
     private static void scan(){
         try {
-            String prefix = "192.168.1.";
+            String prefix = "192.168.2.";
             int end = 256;
             //注意不能太小,至少是1s
             int timeOut = 1000;
-            for (int i = 0; i < end; i++) {
+            for (int i = 100; i < end; i++) {
                 String ip = prefix+i;
                 boolean status = InetAddress.getByName(ip).isReachable(timeOut);
+                String hostName = InetAddress.getByName(ip).getHostName();
+                System.out.println(ip);
                 if (status) {
                     System.out.println("success:"+ip);
+                    System.out.println("hostName:"+hostName);
                 }
             }
         } catch (IOException e) {

@@ -7,24 +7,31 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="telegrambot" />
-        <module name="iputil" />
         <module name="httpclient" />
+        <module name="iputil" />
         <module name="crawlerbilibili" />
+        <module name="nettydemo" />
+        <module name="telegrambot" />
+        <module name="ffmpeg4java" />
+        <module name="ffmpeg4springboot" />
         <module name="crawlerdemo" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="crawlerbilibili" target="1.8" />
       <module name="crawlerdemo" target="1.8" />
+      <module name="ffmpeg4java" target="1.12" />
+      <module name="ffmpeg4springboot" target="1.8" />
       <module name="httpclient" target="1.8" />
       <module name="iputil" target="12" />
+      <module name="nettydemo" target="1.5" />
       <module name="telegrambot" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="crawlerbilibili" options="-parameters" />
+      <module name="ffmpeg4springboot" options="-parameters" />
     </option>
   </component>
 </project>

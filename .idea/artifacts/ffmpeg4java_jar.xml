@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ffmpeg4java:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/ffmpeg4java_jar</output-path>
+    <root id="archive" name="ffmpeg4java.jar">
+      <element id="module-output" name="ffmpeg4java" />
+    </root>
+  </artifact>
+</component>

@@ -8,6 +8,9 @@
         <option value="$PROJECT_DIR$/crawlerbilibili/pom.xml" />
         <option value="$PROJECT_DIR$/iputil/pom.xml" />
         <option value="$PROJECT_DIR$/telegrambot/pom.xml" />
+        <option value="$PROJECT_DIR$/ffmpeg4java/pom.xml" />
+        <option value="$PROJECT_DIR$/ffmpeg4springboot/pom.xml" />
+        <option value="$PROJECT_DIR$/nettydemo/pom.xml" />
       </list>
     </option>
   </component>
