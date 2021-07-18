@@ -11,6 +11,7 @@
       <module fileurl="file://$PROJECT_DIR$/iputil/iputil.iml" filepath="$PROJECT_DIR$/iputil/iputil.iml" />
       <module fileurl="file://$PROJECT_DIR$/nettydemo/nettydemo.iml" filepath="$PROJECT_DIR$/nettydemo/nettydemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/telegrambot/telegrambot.iml" filepath="$PROJECT_DIR$/telegrambot/telegrambot.iml" />
+      <module fileurl="file://$PROJECT_DIR$/websocket/websocket.iml" filepath="$PROJECT_DIR$/websocket/websocket.iml" />
     </modules>
   </component>
 </project>

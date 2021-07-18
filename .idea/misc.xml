@@ -11,6 +11,7 @@
         <option value="$PROJECT_DIR$/ffmpeg4java/pom.xml" />
         <option value="$PROJECT_DIR$/ffmpeg4springboot/pom.xml" />
         <option value="$PROJECT_DIR$/nettydemo/pom.xml" />
+        <option value="$PROJECT_DIR$/websocket/pom.xml" />
       </list>
     </option>
   </component>
