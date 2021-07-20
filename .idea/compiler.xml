@@ -25,9 +25,9 @@
       <module name="ffmpeg4springboot" target="1.8" />
       <module name="httpclient" target="1.8" />
       <module name="iputil" target="12" />
-      <module name="nettydemo" target="1.5" />
+      <module name="nettydemo" target="1.8" />
       <module name="telegrambot" target="1.8" />
-      <module name="websocket" target="11" />
+      <module name="websocket" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

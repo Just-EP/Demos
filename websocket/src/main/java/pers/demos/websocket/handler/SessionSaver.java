@@ -14,21 +14,19 @@ public class SessionSaver {
     private static SessionSaver sessionSaver;
 
 
-    private Session session;
+    private final Session session;
 
     private SessionSaver(Session session) {
         this.session = session;
     }
 
     public static SessionSaver getInstance(Session session) {
-        if (sessionSaver == null) {
-            sessionSaver = new SessionSaver(session);
-        }
+        sessionSaver = new SessionSaver(session);
         return sessionSaver;
     }
 
-    public void saveSession(Session session){
-        this.session = session;
+    public static SessionSaver getInstance() {
+        return sessionSaver;
     }
     public Session getSession(){
         return this.session;

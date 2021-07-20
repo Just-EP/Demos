@@ -17,18 +17,12 @@ import java.io.IOException;
 @Component
 public class LogWebSocketHandle {
 
-//    private final SessionSaver sessionSaver;
-
-//    public LogWebSocketHandle(SessionSaver sessionSaver) {
-//        this.sessionSaver = sessionSaver;
-//    }
-
     @OnOpen
     public void onOpen(Session session) {
         // 建议开启线程处理，避免 open 阻塞
         try {
             if (session.isOpen()) {
-//                sessionSaver.saveSession(session);
+                SessionSaver.getInstance(session);
                 session.getBasicRemote().sendText("Hello" + "\r\n");
             }
         } catch (Exception e) {
@@ -42,12 +36,12 @@ public class LogWebSocketHandle {
     }
 
     public void sendMessage(String message) {
-//        try {
-//            sessionSaver.getSession().getBasicRemote().sendText(message);
-//            // this.session.getAsyncRemote().sendText(message);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            SessionSaver sessionSaver = SessionSaver.getInstance();
+            sessionSaver.getSession().getBasicRemote().sendText(message);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
