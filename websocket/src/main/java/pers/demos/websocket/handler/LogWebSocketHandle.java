@@ -22,8 +22,8 @@ public class LogWebSocketHandle {
         // 建议开启线程处理，避免 open 阻塞
         try {
             if (session.isOpen()) {
-                SessionSaver.getInstance(session);
-                session.getBasicRemote().sendText("Hello" + "\r\n");
+                SessionSaver instance = SessionSaver.getInstance(session);
+                instance.getSession().getBasicRemote().sendText("Hello" + "\r\n");
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -13,7 +13,7 @@ import pers.demos.bot.MyBot;
 public class Main {
     public static void main(String[] args) {
         String proxyHost = "127.0.0.1";
-        String proxyPort = "10808";
+        String proxyPort = "1080";
         System.setProperty("socksProxyHost", proxyHost);
         System.setProperty("socksProxyPort", proxyPort);
         ApiContextInitializer.init();
