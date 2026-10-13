@@ -1,0 +1,147 @@
+name: Real Octop and LobeHub Linux Docker idle benchmark
+
+on:
+  push:
+    branches:
+      - bench/octop-lobehub-20261013
+
+permissions:
+  contents: read
+
+jobs:
+  actual-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Record hardware and clean baseline
+        run: |
+          set -euo pipefail
+          mkdir -p out
+          {
+            date -u
+            uname -a
+            lscpu
+            free -h
+            df -h
+            docker version
+          } > out/host.txt 2>&1
+          docker system df -v > out/docker-before.txt
+
+      - name: Build and start original Octop
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          git clone --depth 1 https://github.com/yifanxz/octop.git "$RUNNER_TEMP/octop-src"
+          git -C "$RUNNER_TEMP/octop-src" rev-parse HEAD > out/octop-git-commit.txt
+          mkdir -p "$RUNNER_TEMP/octop-data"
+          cd "$RUNNER_TEMP/octop-src"
+          OCTOP_DATA="$RUNNER_TEMP/octop-data" docker compose -p octopbench -f docker/docker-compose.yml up -d --build > "$GITHUB_WORKSPACE/out/octop-start.log" 2>&1
+          docker compose -p octopbench -f docker/docker-compose.yml ps -a > "$GITHUB_WORKSPACE/out/octop-ps.txt"
+          for i in $(seq 1 30); do
+            if curl --silent --output /dev/null http://127.0.0.1:8088/ ; then
+              echo "HTTP responded on check $i" > "$GITHUB_WORKSPACE/out/octop-ready.txt"
+              break
+            fi
+            sleep 2
+          done
+          for n in $(seq 1 18); do
+            echo "# $n $(date -u +%FT%TZ)" >> "$GITHUB_WORKSPACE/out/octop-stats.txt"
+            ids=$(docker ps -q --filter label=com.docker.compose.project=octopbench)
+            test -n "$ids"
+            docker stats --no-stream --format '{{json .}}' $ids >> "$GITHUB_WORKSPACE/out/octop-stats.txt"
+            sleep 4
+          done
+          docker system df -v > "$GITHUB_WORKSPACE/out/octop-disk.txt"
+
+      - name: Capture Octop logs and clear test stack
+        if: always()
+        run: |
+          if test -d "$RUNNER_TEMP/octop-src"; then
+            cd "$RUNNER_TEMP/octop-src"
+            docker compose -p octopbench -f docker/docker-compose.yml logs --no-color > "$GITHUB_WORKSPACE/out/octop-runtime.log" 2>&1 || true
+            docker compose -p octopbench -f docker/docker-compose.yml down -v --remove-orphans || true
+          fi
+          docker system prune -af --volumes > "$GITHUB_WORKSPACE/out/clean-after-octop.txt" 2>&1 || true
+
+      - name: Install original LobeHub complete server stack
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/lobe"
+          cd "$RUNNER_TEMP/lobe"
+          curl -fsSL https://raw.githubusercontent.com/lobehub/lobehub/canary/docker-compose/setup.sh -o setup.sh
+          git ls-remote https://github.com/lobehub/lobehub.git refs/heads/canary > "$GITHUB_WORKSPACE/out/lobehub-source-commit.txt"
+          printf '2\ny\nn\n' | bash setup.sh --lang en_US --url https://raw.githubusercontent.com/lobehub/lobehub/canary >/dev/null
+          docker compose -p lobehub config --services > "$GITHUB_WORKSPACE/out/lobehub-services.txt"
+          docker compose -p lobehub up -d --wait --wait-timeout 480 > "$GITHUB_WORKSPACE/out/lobehub-start.log" 2>&1
+          docker compose -p lobehub ps -a > "$GITHUB_WORKSPACE/out/lobehub-ps.txt"
+          docker images --digests > "$GITHUB_WORKSPACE/out/lobehub-images.txt"
+          for i in $(seq 1 60); do
+            if curl --silent --output /dev/null http://127.0.0.1:3210/ ; then
+              echo "HTTP responded on check $i" > "$GITHUB_WORKSPACE/out/lobehub-ready.txt"
+              break
+            fi
+            sleep 2
+          done
+          for n in $(seq 1 18); do
+            echo "# $n $(date -u +%FT%TZ)" >> "$GITHUB_WORKSPACE/out/lobehub-stats.txt"
+            ids=$(docker ps -q --filter label=com.docker.compose.project=lobehub)
+            test -n "$ids"
+            docker stats --no-stream --format '{{json .}}' $ids >> "$GITHUB_WORKSPACE/out/lobehub-stats.txt"
+            sleep 4
+          done
+          docker system df -v > "$GITHUB_WORKSPACE/out/lobehub-disk.txt"
+
+      - name: Summarize only actual samples and capture logs
+        if: always()
+        run: |
+          mkdir -p out
+          python3 - <<'PY'
+          from pathlib import Path
+          import json, re, statistics
+          root=Path('out')
+          for product in ('octop','lobehub'):
+              path=root/f'{product}-stats.txt'
+              if not path.exists():
+                  continue
+              samples=[]; group=[]
+              for line in path.read_text().splitlines()+['# end']:
+                  if line.startswith('#'):
+                      if group: samples.append(group)
+                      group=[]
+                  elif line.strip():
+                      try:
+                          x=json.loads(line)
+                          m=x['MemUsage'].split('/')[0].strip()
+                          match=re.match(r'([\d.]+)\s*(B|KiB|MiB|GiB|TiB|kB|MB|GB|TB)',m)
+                          if not match: continue
+                          n=float(match[1]); u=match[2]
+                          mul={'B':1/1048576,'KiB':1/1024,'MiB':1,'GiB':1024,'TiB':1048576,'kB':1/1000,'MB':1.048576,'GB':1048.576,'TB':1048576}
+                          group.append({'name':x['Name'],'cpu_percent':float(x['CPUPerc'].strip('%')),'memory_mib':n*mul[u]})
+                      except (ValueError, KeyError, json.JSONDecodeError):
+                          pass
+              if not samples: continue
+              totals=[{'cpu_percent':sum(q['cpu_percent'] for q in s),'memory_mib':sum(q['memory_mib'] for q in s)} for s in samples]
+              def summary(xs):
+                  return {'mean':round(statistics.mean(xs),2),'peak':round(max(xs),2),'min':round(min(xs),2)}
+              names=sorted({e['name'] for s in samples for e in s})
+              report={'data_provenance':'Docker stats on original deployed containers: idle only, no simulated loads','samples':len(samples),'containers':names,'full_stack':{k:summary([t[k] for t in totals]) for k in ('cpu_percent','memory_mib')},'per_container':{name:{k:summary([e[k] for s in samples for e in s if e['name']==name]) for k in ('cpu_percent','memory_mib')} for name in names}}
+              (root/f'{product}-summary.json').write_text(json.dumps(report,indent=2))
+              print(product,report['full_stack'])
+          PY
+          if test -d "$RUNNER_TEMP/lobe"; then
+            cd "$RUNNER_TEMP/lobe"
+            docker compose -p lobehub ps -a > "$GITHUB_WORKSPACE/out/lobehub-ps-final.txt" 2>&1 || true
+            docker compose -p lobehub logs --no-color --tail 400 2>&1 | grep -Eiv '(PASSWORD|SECRET|JWKS|S3_ACCESS_KEY|S3_SECRET_KEY|API_KEY)' > "$GITHUB_WORKSPACE/out/lobehub-runtime-redacted.log" || true
+            docker compose -p lobehub down -v --remove-orphans || true
+          fi
+
+      - name: Attach raw Docker samples and configuration
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: real-octop-lobehub-idle
+          path: out/
+          retention-days: 7
